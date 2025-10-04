@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       new URL(GITHUB_PROFILE_IMAGE_URL),
     ],
   },
+  transpilePackages: ['next-mdx-remote']
 };
 
 export default nextConfig;
