@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface ScrollNavigationProps {
@@ -11,9 +11,18 @@ export default function ScrollNavigation({ totalSections }: ScrollNavigationProp
   const [currentSection, setCurrentSection] = useState(0);
   const [attemptingUp, setAttemptingUp] = useState(false);
   const [attemptingDown, setAttemptingDown] = useState(false);
+  
+  // Use refs para valores que não precisam re-renderizar
+  const lastWheelTimeRef = useRef(0);
+  const currentSectionRef = useRef(0);
 
   const isAtTop = currentSection === 0;
   const isAtBottom = currentSection === totalSections - 1;
+  
+  // Mantém a ref atualizada com o currentSection
+  useEffect(() => {
+    currentSectionRef.current = currentSection;
+  }, [currentSection]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,22 +49,72 @@ export default function ScrollNavigation({ totalSections }: ScrollNavigationProp
     }
   }, []);
 
-  // Detecta tentativa de scroll além dos limites
+  // Detecta scroll rápido e pula múltiplas seções
   useEffect(() => {
+    let accumulatedDelta = 0;
+    let wheelTimeout: NodeJS.Timeout;
+
     const handleWheel = (e: WheelEvent) => {
-      if (isAtTop && e.deltaY < 0) {
-        setAttemptingUp(true);
-        setTimeout(() => setAttemptingUp(false), 600);
+      const now = Date.now();
+      const timeDiff = now - lastWheelTimeRef.current;
+      
+      // Acumula o delta do scroll
+      accumulatedDelta += Math.abs(e.deltaY);
+      
+      // Detecta scroll rápido (múltiplos eventos em menos de 100ms)
+      if (timeDiff < 100) {
+        clearTimeout(wheelTimeout);
       }
-      if (isAtBottom && e.deltaY > 0) {
-        setAttemptingDown(true);
-        setTimeout(() => setAttemptingDown(false), 600);
-      }
+      
+      lastWheelTimeRef.current = now;
+      
+      // Aguarda um pequeno intervalo sem scroll para processar
+      wheelTimeout = setTimeout(() => {
+        // Calcula quantas seções pular baseado na velocidade
+        // Scroll normal: ~100 deltaY
+        // Scroll rápido: 300+ deltaY acumulado
+        const sectionsToJump = Math.min(
+          Math.floor(accumulatedDelta / 200), // A cada 200px de delta, pula 1 seção extra
+          3 // Máximo de 3 seções por vez
+        );
+        
+        if (e.deltaY > 0) {
+          // Scroll para baixo
+          if (!isAtBottom) {
+            const targetSection = Math.min(
+              currentSectionRef.current + 1 + sectionsToJump,
+              totalSections - 1
+            );
+            scrollToSection(targetSection);
+          } else {
+            setAttemptingDown(true);
+            setTimeout(() => setAttemptingDown(false), 600);
+          }
+        } else {
+          // Scroll para cima
+          if (!isAtTop) {
+            const targetSection = Math.max(
+              currentSectionRef.current - 1 - sectionsToJump,
+              0
+            );
+            scrollToSection(targetSection);
+          } else {
+            setAttemptingUp(true);
+            setTimeout(() => setAttemptingUp(false), 600);
+          }
+        }
+        
+        // Reset do acumulador
+        accumulatedDelta = 0;
+      }, 50); // Aguarda 50ms sem scroll para processar
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
-    return () => window.removeEventListener('wheel', handleWheel);
-  }, [isAtTop, isAtBottom]);
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+      clearTimeout(wheelTimeout);
+    };
+  }, [isAtTop, isAtBottom, totalSections]);
 
   // Navegação por teclado
   useEffect(() => {
