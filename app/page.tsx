@@ -14,7 +14,7 @@ export default async function Home() {
   const totalSections = sections.length + 1;
 
   return (
-    <div className="h-screen overflow-y-scroll snap-y snap-mandatory transition-colors">
+    <div className="h-screen overflow-y-scroll snap-y md:snap-mandatory transition-colors">
       {/* ThemeToggle fixo no canto superior direito - oculto em mobile */}
       <div className="fixed top-4 right-4 z-50 hidden md:block">
         <ThemeToggle />
