@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { LOCALE, SITE_DESCRIPTION, SITE_NAME } from "./lib/constants";
 import { ThemeProvider } from "./components/ThemeProvider";
+import MouseTrail from "./components/MouseTrail";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <MouseTrail />
           {children}
         </ThemeProvider>
       </body>
