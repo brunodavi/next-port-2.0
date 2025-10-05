@@ -21,7 +21,7 @@ export default function AnimatedSection({ children, index, sectionId }: Animated
     <motion.section
       ref={ref}
       id={sectionId}
-      className="min-h-screen w-full flex flex-col items-center justify-center md:snap-start md:snap-always px-6 py-12"
+      className="min-h-screen w-full flex flex-col items-center justify-center md:snap-start md:snap-always px-6 py-12 relative z-10"
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
       transition={{
