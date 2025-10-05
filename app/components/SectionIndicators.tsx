@@ -44,9 +44,9 @@ export default function SectionIndicators({ totalSections }: SectionIndicatorsPr
 
     return (
         <motion.div 
-            className="fixed right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-4 p-3 rounded-full backdrop-blur-md bg-white/60 dark:bg-gray-900/40 border border-blue-300/40 dark:border-blue-500/30"
+            className="fixed right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-4 p-3 rounded-full backdrop-blur-md bg-gray-100/60 dark:bg-gray-900/40 border border-gray-300/40 dark:border-blue-500/30"
             style={{
-                boxShadow: '0 8px 32px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
             }}
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -68,8 +68,8 @@ export default function SectionIndicators({ totalSections }: SectionIndicatorsPr
                                     transform: 'scale(1.25)',
                                 }
                                 : {
-                                    background: 'rgba(100, 116, 139, 0.5)',
-                                    boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.15)',
+                                    background: 'rgba(107, 114, 128, 0.5)',
+                                    boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.2)',
                                     transform: 'scale(1)',
                                 }
                         }
