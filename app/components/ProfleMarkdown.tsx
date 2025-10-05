@@ -1,8 +1,8 @@
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { Suspense } from "react";
 
-import { GITHUB_PROFILE_README_URL } from "../lib/constants";
-import { parseMarkdownIntoSections, astToMarkdown, headingToText } from "../lib/markdown-sections";
+import { astToMarkdown, headingToText } from "../lib/markdown-sections";
+import { fetchMarkdownSections } from "../lib/fetch-markdown";
 
 // Componentes MDX padrão (sem os headings, que serão tratados separadamente)
 const components = {
@@ -89,16 +89,8 @@ function MarkdownSection({ section, index }: { section: any; index: number }) {
 }
 
 export default async function ProfileMarkdown() {
-    const res = await fetch(GITHUB_PROFILE_README_URL, {
-        headers: {
-            'Cache-Control': 'no-cache'
-        }
-    });
-
-    const source = await res.text();
-    
-    // Processa o markdown em seções
-    const sections = await parseMarkdownIntoSections(source);
+    // Busca as seções do markdown
+    const sections = await fetchMarkdownSections();
 
     return (
         <Suspense fallback={<MarkdownSkeleton />}>
