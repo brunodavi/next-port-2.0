@@ -4,6 +4,7 @@ import "./globals.css";
 import { LOCALE, SITE_DESCRIPTION, SITE_NAME } from "./lib/constants";
 import { ThemeProvider } from "./components/ThemeProvider";
 import MouseTrail from "./components/MouseTrail";
+import ScrollToTop from "./components/ScrollToTop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,6 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <ScrollToTop />
           <MouseTrail />
           {children}
         </ThemeProvider>
