@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 interface SectionIndicatorsProps {
     totalSections: number;
@@ -42,9 +43,14 @@ export default function SectionIndicators({ totalSections }: SectionIndicatorsPr
     };
 
     return (
-        <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3">
+        <motion.div 
+            className="fixed right-6 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
+        >
             {Array.from({ length: totalSections }).map((_, index) => (
-                <button
+                <motion.button
                     key={index}
                     onClick={() => scrollToSection(index)}
                     className={`w-3 h-3 rounded-full transition-all duration-300 ${
@@ -54,8 +60,16 @@ export default function SectionIndicators({ totalSections }: SectionIndicatorsPr
                     }`}
                     aria-label={`Ir para seção ${index + 1}`}
                     title={`Seção ${index + 1}`}
+                    initial={{ opacity: 0, scale: 0 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ 
+                        duration: 0.3, 
+                        delay: 0.6 + (index * 0.05) // Stagger effect
+                    }}
+                    whileHover={{ scale: 1.3 }}
+                    whileTap={{ scale: 0.9 }}
                 />
             ))}
-        </div>
+        </motion.div>
     );
 }

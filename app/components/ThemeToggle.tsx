@@ -2,6 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -29,9 +30,14 @@ export default function ThemeToggle() {
   ];
 
   return (
-    <div className="inline-flex rounded-lg border border-gray-300 dark:border-gray-700 p-1 bg-gray-100 dark:bg-gray-800">
-      {themes.map((t) => (
-        <button
+    <motion.div 
+      className="inline-flex rounded-lg border border-gray-300 dark:border-gray-700 p-1 bg-gray-100 dark:bg-gray-800"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: 0.3 }}
+    >
+      {themes.map((t, index) => (
+        <motion.button
           key={t.value}
           onClick={() => setTheme(t.value)}
           className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${
@@ -40,11 +46,16 @@ export default function ThemeToggle() {
               : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
           }`}
           aria-label={`Tema ${t.label}`}
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3, delay: 0.4 + (index * 0.1) }}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <span className="mr-1.5">{t.icon}</span>
           {t.label}
-        </button>
+        </motion.button>
       ))}
-    </div>
+    </motion.div>
   );
 }

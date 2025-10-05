@@ -3,6 +3,8 @@ import { Suspense } from "react";
 
 import { astToMarkdown, headingToText } from "../lib/markdown-sections";
 import { fetchMarkdownSections } from "../lib/fetch-markdown";
+import AnimatedSection from "./AnimatedSection";
+import { AnimatedHeading, AnimatedContent } from "./AnimatedContent";
 
 // Componentes MDX padrão (sem os headings, que serão tratados separadamente)
 const components = {
@@ -65,26 +67,23 @@ function MarkdownSection({ section, index }: { section: any; index: number }) {
     const headingClass = headingClasses[level] || "text-3xl font-bold mb-6";
     
     return (
-        <section 
-            className="min-h-screen w-full flex flex-col items-center justify-center snap-start snap-always px-6 py-12"
-            id={`section-${index}`}
-        >
+        <AnimatedSection index={index} sectionId={`section-${index}`}>
             <div className="max-w-4xl w-full space-y-6">
-                {/* Renderiza o heading */}
+                {/* Renderiza o heading com animação */}
                 {headingText && (
-                    <h2 className={`${headingClass} text-center`}>
+                    <AnimatedHeading className={`${headingClass} text-center`}>
                         {headingText}
-                    </h2>
+                    </AnimatedHeading>
                 )}
                 
-                {/* Renderiza o conteúdo da seção */}
+                {/* Renderiza o conteúdo da seção com animação */}
                 {contentMarkdown && (
-                    <div className="prose prose-lg dark:prose-invert mx-auto max-w-none">
+                    <AnimatedContent>
                         <MDXRemote source={contentMarkdown} components={components} />
-                    </div>
+                    </AnimatedContent>
                 )}
             </div>
-        </section>
+        </AnimatedSection>
     );
 }
 
