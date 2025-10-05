@@ -46,6 +46,20 @@ body {
   scroll-padding-top: 0; /* Remove padding extra */
 }
 
+/* Snap mandatory apenas em desktop */
+@media (min-width: 768px) {
+  .snap-y.md\:snap-mandatory {
+    scroll-snap-type: y mandatory;
+  }
+}
+
+/* No mobile, scroll livre sem snap */
+@media (max-width: 767px) {
+  .snap-y {
+    scroll-snap-type: none;
+  }
+}
+
 /* Snap proximity - permite scroll livre mas atrai para seções */
 .snap-proximity {
   scroll-snap-type: y proximity;
@@ -55,6 +69,14 @@ body {
 section {
   scroll-snap-align: start;
   scroll-snap-stop: normal; /* Permite passar por múltiplas seções */
+}
+
+/* No mobile, remove comportamento de snap das seções */
+@media (max-width: 767px) {
+  section {
+    scroll-snap-align: none;
+    scroll-snap-stop: auto;
+  }
 }
 
 /* Customização da scrollbar */
