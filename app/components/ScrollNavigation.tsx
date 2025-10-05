@@ -379,16 +379,6 @@ export default function ScrollNavigation({ totalSections }: ScrollNavigationProp
           onClick={handleBottomClick}
         />
       </motion.div>
-
-      {/* Indicador de progresso */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="fixed bottom-8 right-8 z-40 text-sm text-gray-600 dark:text-gray-400 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-md"
-      >
-        {currentSection + 1} / {totalSections}
-      </motion.div>
     </>
   );
 }
