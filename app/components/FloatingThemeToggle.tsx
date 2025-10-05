@@ -55,9 +55,9 @@ export default function FloatingThemeToggle() {
                 <motion.button
                   key={t.value}
                   onClick={() => handleThemeSelect(t.value)}
-                  className="flex items-center justify-center w-14 h-14 rounded-full backdrop-blur-md bg-gray-100/90 dark:bg-gray-900/90 border border-gray-300/40 dark:border-blue-500/30 text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-800 shadow-lg"
+                  className="flex items-center justify-center w-14 h-14 rounded-full backdrop-blur-md bg-white/90 dark:bg-gray-900/90 border border-blue-200/60 dark:border-blue-500/30 text-gray-700 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-gray-800 shadow-lg"
                   style={{
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                    boxShadow: '0 8px 24px rgba(59, 130, 246, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.4)',
                   }}
                   initial={{ opacity: 0, y: 20, scale: 0 }}
                   animate={{ 

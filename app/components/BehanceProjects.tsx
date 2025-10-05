@@ -90,9 +90,9 @@ export default function BehanceProjects({ sectionIndex }: { sectionIndex: number
                   href={project.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group block rounded-xl overflow-hidden backdrop-blur-md bg-gray-100/60 dark:bg-gray-900/40 border border-gray-300/40 dark:border-blue-500/20 transition-all duration-300 ease-out"
+                  className="group block rounded-xl overflow-hidden backdrop-blur-md bg-white/70 dark:bg-gray-900/40 border border-blue-200/50 dark:border-blue-500/20 transition-all duration-300 ease-out"
                   style={{
-                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                    boxShadow: '0 8px 32px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
                   }}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -130,7 +130,7 @@ export default function BehanceProjects({ sectionIndex }: { sectionIndex: number
                   }}
                 >
                   {/* Imagem do projeto */}
-                  <div className="relative w-full aspect-[404/316] overflow-hidden bg-gray-200/50 dark:bg-gray-800/50">
+                  <div className="relative w-full aspect-[404/316] overflow-hidden bg-blue-50/60 dark:bg-gray-800/50">
                     {project.image ? (
                       <img
                         src={project.image}

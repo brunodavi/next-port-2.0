@@ -76,13 +76,13 @@ export default function MouseTrail() {
 		},
 		particles: {
 			color: {
-				value: isDark ? '#60a5fa' : '#3b82f6', // blue-400 dark / blue-500 light
+				value: isDark ? '#60a5fa' : '#2563eb', // blue-400 dark / blue-600 light (mais escuro)
 			},
 			links: {
-				color: isDark ? '#60a5fa' : '#3b82f6',
+				color: isDark ? '#60a5fa' : '#2563eb',
 				distance: 150,
 				enable: true,
-				opacity: isDark ? 0.3 : 0.2,
+				opacity: isDark ? 0.3 : 0.35, // Mais visível no tema claro
 				width: 1,
 			},
 			move: {
@@ -102,7 +102,7 @@ export default function MouseTrail() {
 				value: 80,
 			},
 			opacity: {
-				value: isDark ? 0.5 : 0.3,
+				value: isDark ? 0.5 : 0.5, // Opacidade igual em ambos temas
 			},
 			shape: {
 				type: 'circle',
