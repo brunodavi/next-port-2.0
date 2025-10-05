@@ -39,6 +39,18 @@ body {
 .snap-y {
   scroll-behavior: smooth;
   overscroll-behavior-y: contain; /* Previne bounce no final */
+  scroll-padding-top: 0; /* Remove padding extra */
+}
+
+/* Snap proximity - permite scroll livre mas atrai para seções */
+.snap-proximity {
+  scroll-snap-type: y proximity;
+}
+
+/* Seções com snap suave */
+section {
+  scroll-snap-align: start;
+  scroll-snap-stop: normal; /* Permite passar por múltiplas seções */
 }
 
 /* Customização da scrollbar */

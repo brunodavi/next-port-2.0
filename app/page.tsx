@@ -1,6 +1,7 @@
 import ProfileMarkdown from "./components/ProfleMarkdown";
 import ThemeToggle from "./components/ThemeToggle";
 import SectionIndicators from "./components/SectionIndicators";
+import ScrollNavigation from "./components/ScrollNavigation";
 import { fetchMarkdownSections } from "./lib/fetch-markdown";
 
 export default async function Home() {
@@ -16,6 +17,9 @@ export default async function Home() {
       
       {/* Indicadores de seção */}
       <SectionIndicators totalSections={sections.length} />
+      
+      {/* Navegação com bordas neon */}
+      <ScrollNavigation totalSections={sections.length} />
       
       {/* Container com scroll snap */}
       <ProfileMarkdown />
