@@ -22,10 +22,46 @@
 html {
   background: var(--background);
   color: var(--foreground);
+  scroll-behavior: smooth;
+  overflow: hidden; /* Previne scroll no html */
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden; /* Previne scroll duplo */
+  margin: 0;
+  padding: 0;
+}
+
+/* Melhorias no scroll snap */
+.snap-y {
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain; /* Previne bounce no final */
+}
+
+/* Customização da scrollbar */
+.snap-y::-webkit-scrollbar {
+  width: 8px;
+}
+
+.snap-y::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.snap-y::-webkit-scrollbar-thumb {
+  background: rgba(136, 136, 136, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.snap-y::-webkit-scrollbar-thumb:hover {
+  background: rgba(136, 136, 136, 0.5);
+}
+
+/* Suporte para Firefox */
+.snap-y {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(136, 136, 136, 0.3) transparent;
 }
