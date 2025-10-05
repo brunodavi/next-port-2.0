@@ -51,68 +51,99 @@ export default function ScrollNavigation({ totalSections }: ScrollNavigationProp
 
   // Detecta scroll rápido e pula múltiplas seções
   useEffect(() => {
-    let accumulatedDelta = 0;
-    let wheelTimeout: NodeJS.Timeout;
+    let wheelEvents: number[] = [];
+    let isScrolling = false;
+    let processingTimeout: NodeJS.Timeout;
 
     const handleWheel = (e: WheelEvent) => {
       const now = Date.now();
       const timeDiff = now - lastWheelTimeRef.current;
       
-      // Acumula o delta do scroll
-      accumulatedDelta += Math.abs(e.deltaY);
-      
-      // Detecta scroll rápido (múltiplos eventos em menos de 100ms)
-      if (timeDiff < 100) {
-        clearTimeout(wheelTimeout);
-      }
-      
       lastWheelTimeRef.current = now;
       
-      // Aguarda um pequeno intervalo sem scroll para processar
-      wheelTimeout = setTimeout(() => {
-        // Calcula quantas seções pular baseado na velocidade
-        // Scroll normal: ~100 deltaY
-        // Scroll rápido: 300+ deltaY acumulado
-        const sectionsToJump = Math.min(
-          Math.floor(accumulatedDelta / 200), // A cada 200px de delta, pula 1 seção extra
-          3 // Máximo de 3 seções por vez
-        );
+      // Se já está processando uma animação, ignora
+      if (isScrolling) {
+        return;
+      }
+      
+      // Adiciona o timestamp atual ao array
+      wheelEvents.push(now);
+      
+      // Remove eventos antigos (mais de 200ms)
+      wheelEvents = wheelEvents.filter(time => now - time < 200);
+      
+      // Limpa o timeout anterior
+      clearTimeout(processingTimeout);
+      
+      // Aguarda um pequeno intervalo para processar
+      processingTimeout = setTimeout(() => {
+        // Conta quantos eventos aconteceram nos últimos 200ms
+        const recentEvents = wheelEvents.length;
         
-        if (e.deltaY > 0) {
-          // Scroll para baixo
-          if (!isAtBottom) {
-            const targetSection = Math.min(
-              currentSectionRef.current + 1 + sectionsToJump,
-              totalSections - 1
-            );
-            scrollToSection(targetSection);
-          } else {
-            setAttemptingDown(true);
-            setTimeout(() => setAttemptingDown(false), 600);
-          }
-        } else {
-          // Scroll para cima
-          if (!isAtTop) {
-            const targetSection = Math.max(
-              currentSectionRef.current - 1 - sectionsToJump,
-              0
-            );
-            scrollToSection(targetSection);
-          } else {
-            setAttemptingUp(true);
-            setTimeout(() => setAttemptingUp(false), 600);
-          }
+        // Determina se é scroll rápido:
+        // - 2+ eventos em menos de 100ms = scroll rápido moderado
+        // - 3+ eventos em menos de 150ms = scroll muito rápido
+        const eventsIn100ms = wheelEvents.filter(time => now - time < 100).length;
+        const eventsIn150ms = wheelEvents.filter(time => now - time < 150).length;
+        
+        let sectionsToJump = 0;
+        
+        if (eventsIn100ms >= 2) {
+          sectionsToJump = 1; // Pula 1 seção extra
+        }
+        if (eventsIn150ms >= 3) {
+          sectionsToJump = 2; // Pula 2 seções extras
         }
         
-        // Reset do acumulador
-        accumulatedDelta = 0;
-      }, 50); // Aguarda 50ms sem scroll para processar
+        // Executa o scroll
+        if (sectionsToJump > 0) {
+          isScrolling = true;
+          
+          if (e.deltaY > 0) {
+            // Scroll para baixo
+            if (!isAtBottom) {
+              const targetSection = Math.min(
+                currentSectionRef.current + 1 + sectionsToJump,
+                totalSections - 1
+              );
+              scrollToSection(targetSection);
+            } else {
+              setAttemptingDown(true);
+              setTimeout(() => setAttemptingDown(false), 600);
+            }
+          } else {
+            // Scroll para cima
+            if (!isAtTop) {
+              const targetSection = Math.max(
+                currentSectionRef.current - 1 - sectionsToJump,
+                0
+              );
+              scrollToSection(targetSection);
+            } else {
+              setAttemptingUp(true);
+              setTimeout(() => setAttemptingUp(false), 600);
+            }
+          }
+          
+          // Limpa os eventos
+          wheelEvents = [];
+          
+          // Libera após a animação
+          setTimeout(() => {
+            isScrolling = false;
+          }, 400);
+        } else {
+          // Scroll normal - permite que o comportamento padrão aconteça
+          // mas limpa eventos antigos
+          wheelEvents = [];
+        }
+      }, 30); // Pequeno delay para agrupar eventos
     };
 
     window.addEventListener('wheel', handleWheel, { passive: true });
     return () => {
       window.removeEventListener('wheel', handleWheel);
-      clearTimeout(wheelTimeout);
+      clearTimeout(processingTimeout);
     };
   }, [isAtTop, isAtBottom, totalSections]);
 
