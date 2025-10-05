@@ -15,7 +15,7 @@ export default function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <div className="inline-flex rounded-2xl border border-blue-200/30 dark:border-blue-500/20 p-1 backdrop-blur-md bg-white/40 dark:bg-gray-900/40">
+      <div className="inline-flex rounded-2xl border border-gray-300/40 dark:border-blue-500/20 p-1 backdrop-blur-md bg-gray-100/60 dark:bg-gray-900/40">
         <button className="px-3 py-1.5 rounded-xl text-sm font-medium">
           Carregando...
         </button>
@@ -31,9 +31,9 @@ export default function ThemeToggle() {
 
   return (
     <motion.div 
-      className="inline-flex gap-2 rounded-2xl border border-blue-200/30 dark:border-blue-500/20 p-1.5 backdrop-blur-md bg-white/40 dark:bg-gray-900/40 shadow-lg"
+      className="inline-flex gap-2 rounded-2xl border border-gray-300/40 dark:border-blue-500/20 p-1.5 backdrop-blur-md bg-gray-100/60 dark:bg-gray-900/40 shadow-lg"
       style={{
-        boxShadow: '0 8px 32px rgba(59, 130, 246, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+        boxShadow: '0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
       }}
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -46,7 +46,7 @@ export default function ThemeToggle() {
           className={`px-4 py-2 rounded-xl text-sm font-medium relative overflow-hidden ${
             theme === t.value
               ? "text-white shadow-lg"
-              : "text-gray-800 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
+              : "text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-white/50 dark:hover:bg-gray-800/50"
           }`}
           style={
             theme === t.value
